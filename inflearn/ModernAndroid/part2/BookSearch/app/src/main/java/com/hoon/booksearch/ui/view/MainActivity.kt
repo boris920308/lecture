@@ -1,11 +1,9 @@
-package com.hoon.booksearch
+package com.hoon.booksearch.ui.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.hoon.booksearch.R
 import com.hoon.booksearch.databinding.ActivityMainBinding
-import com.hoon.booksearch.ui.view.FavoriteFragment
-import com.hoon.booksearch.ui.view.SearchFragment
-import com.hoon.booksearch.ui.view.SettingFragment
 
 class MainActivity : AppCompatActivity() {
 
