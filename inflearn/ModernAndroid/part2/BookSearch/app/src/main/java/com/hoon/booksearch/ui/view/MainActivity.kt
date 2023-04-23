@@ -2,14 +2,19 @@ package com.hoon.booksearch.ui.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 import com.hoon.booksearch.R
+import com.hoon.booksearch.data.repository.BookSearchRepositoryImpl
 import com.hoon.booksearch.databinding.ActivityMainBinding
+import com.hoon.booksearch.ui.viewmodel.BookSearchViewModel
+import com.hoon.booksearch.ui.viewmodel.BookSearchViewModelProviderFactory
 
 class MainActivity : AppCompatActivity() {
 
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
+    lateinit var bookSearchViewModel: BookSearchViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +26,11 @@ class MainActivity : AppCompatActivity() {
             // app 첫실행 판단, 첫 실행일 경우 SearchFragment 표시
             binding.bottomNavigationView.selectedItemId = R.id.fragment_search
         }
+
+        val bookSearchRepository = BookSearchRepositoryImpl()
+        val factory = BookSearchViewModelProviderFactory(bookSearchRepository)
+        bookSearchViewModel = ViewModelProvider(this, factory)[BookSearchViewModel::class.java]
+
     }
 
     private fun setupBottomNavigationView() {
