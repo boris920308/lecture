@@ -58,6 +58,8 @@ class SearchFragment : Fragment() {
         var startTime = System.currentTimeMillis()
         var endTime: Long
 
+        binding.etSearch.text = Editable.Factory.getInstance().newEditable(bookSearchViewModel.query)
+
         binding.etSearch.addTextChangedListener { text: Editable? ->
             endTime = System.currentTimeMillis()
             if (endTime - startTime >= SEARCH_BOOKS_TIME_DELAY) {
@@ -65,6 +67,7 @@ class SearchFragment : Fragment() {
                     val query = it.toString().trim()
                     if (query.isNotEmpty()) {
                         bookSearchViewModel.searchBooks(query)
+                        bookSearchViewModel.query = query
                     }
                 }
             }
