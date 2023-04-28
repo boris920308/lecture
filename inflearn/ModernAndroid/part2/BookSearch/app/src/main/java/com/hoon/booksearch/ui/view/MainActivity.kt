@@ -3,6 +3,12 @@ package com.hoon.booksearch.ui.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.hoon.booksearch.R
 import com.hoon.booksearch.data.repository.BookSearchRepositoryImpl
 import com.hoon.booksearch.databinding.ActivityMainBinding
@@ -15,17 +21,15 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
     lateinit var bookSearchViewModel: BookSearchViewModel
+    private lateinit var navController: NavController
+    // AppBar fragment 이름 표시로 변경
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        setupBottomNavigationView()
-
-        if (savedInstanceState == null) {
-            // app 첫실행 판단, 첫 실행일 경우 SearchFragment 표시
-            binding.bottomNavigationView.selectedItemId = R.id.fragment_search
-        }
+        setupJetpackNavigation()
 
         val bookSearchRepository = BookSearchRepositoryImpl()
         val factory = BookSearchViewModelProviderFactory(bookSearchRepository, this)
@@ -33,30 +37,21 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun setupBottomNavigationView() {
-        binding.bottomNavigationView.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.fragment_search -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.frame_layout, SearchFragment())
-                        .commit()
-                    true
-                }
-                R.id.fragment_favorite -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.frame_layout, FavoriteFragment())
-                        .commit()
-                    true
-                }
-                R.id.fragment_setting -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.frame_layout, SettingFragment())
-                        .commit()
-                    true
-                }
-                else -> false
-            }
-        }
+    private fun setupJetpackNavigation() {
+        val host = supportFragmentManager
+            .findFragmentById(R.id.booksearch_nav_host_fragment) as NavHostFragment? ?: return
+        navController = host.navController
+        binding.bottomNavigationView.setupWithNavController(navController)
+
+        // AppBar fragment 이름 표시로 변경
+        appBarConfiguration = AppBarConfiguration(
+            navController.graph
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        // AppBar fragment 이름 표시로 변경
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
 }
