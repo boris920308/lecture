@@ -45,7 +45,10 @@ class MainActivity : AppCompatActivity() {
 
         // AppBar fragment 이름 표시로 변경
         appBarConfiguration = AppBarConfiguration(
-            navController.graph
+            // 모든 fragment 를 top level destination 로 지정
+            setOf(
+                R.id.fragment_search, R.id.fragment_favorite, R.id.fragment_setting
+            )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
