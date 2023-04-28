@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ListAdapter
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hoon.booksearch.databinding.FragmentSearchBinding
@@ -51,6 +52,10 @@ class SearchFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
             adapter = bookSearchAdapter
+        }
+        bookSearchAdapter.setOnItemClickListener {
+            val action = SearchFragmentDirections.actionFragmentSearchToFragmentBook(it)
+            findNavController().navigate(action)
         }
     }
 
