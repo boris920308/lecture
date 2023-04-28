@@ -9,6 +9,7 @@ import com.hoon.booksearch.data.model.Book
     version = 1,
     exportSchema = false
 )
+@TypeConverters(OrmConverter::class)
 abstract class BookSearchDatabase : RoomDatabase() {
 
     abstract fun bookSearchDao(): BookSearchDao
