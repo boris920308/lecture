@@ -5,6 +5,7 @@ import com.hoon.booksearch.data.model.Book
 import com.hoon.booksearch.data.model.SearchResponse
 import com.hoon.booksearch.data.repository.BookSearchRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class BookSearchViewModel(
@@ -34,7 +35,7 @@ class BookSearchViewModel(
         bookSearchRepository.deleteBooks(book)
     }
 
-    val favoriteBooks: LiveData<List<Book>> = bookSearchRepository.getFavoriteBooks()
+    val favoriteBooks: Flow<List<Book>> = bookSearchRepository.getFavoriteBooks()
 
     // savedState
     var query = String()
