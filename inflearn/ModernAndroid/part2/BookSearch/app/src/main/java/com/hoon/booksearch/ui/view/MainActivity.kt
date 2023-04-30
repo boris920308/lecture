@@ -1,7 +1,9 @@
 package com.hoon.booksearch.ui.view
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -15,6 +17,7 @@ import com.hoon.booksearch.data.repository.BookSearchRepositoryImpl
 import com.hoon.booksearch.databinding.ActivityMainBinding
 import com.hoon.booksearch.ui.viewmodel.BookSearchViewModel
 import com.hoon.booksearch.ui.viewmodel.BookSearchViewModelProviderFactory
+import com.hoon.booksearch.util.Constants.DATASTORE_NAME
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,6 +29,9 @@ class MainActivity : AppCompatActivity() {
     // AppBar fragment 이름 표시로 변경
     private lateinit var appBarConfiguration: AppBarConfiguration
 
+    // data store singleton 객체 생성
+    private val Context.dataStore by preferencesDataStore(DATASTORE_NAME)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -33,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         setupJetpackNavigation()
 
         val database = BookSearchDatabase.getInstance(this)
-        val bookSearchRepository = BookSearchRepositoryImpl(database)
+        val bookSearchRepository = BookSearchRepositoryImpl(database, dataStore)
         val factory = BookSearchViewModelProviderFactory(bookSearchRepository, this)
         bookSearchViewModel = ViewModelProvider(this, factory)[BookSearchViewModel::class.java]
 
