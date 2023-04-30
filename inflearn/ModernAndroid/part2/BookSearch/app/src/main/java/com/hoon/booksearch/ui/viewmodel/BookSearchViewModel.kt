@@ -2,6 +2,8 @@ package com.hoon.booksearch.ui.viewmodel
 
 import android.hardware.camera2.CameraDevice.StateCallback
 import androidx.lifecycle.*
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.hoon.booksearch.data.model.Book
 import com.hoon.booksearch.data.model.SearchResponse
 import com.hoon.booksearch.data.repository.BookSearchRepository
@@ -64,4 +66,10 @@ class BookSearchViewModel(
     suspend fun getSortMode() = withContext(Dispatchers.IO) {
         bookSearchRepository.getSortMode().first()
     }
+
+    // paging
+    val favoritePagingBooks: StateFlow<PagingData<Book>> =
+        bookSearchRepository.getFavoritePagingBooks()
+            .cachedIn(viewModelScope)
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), PagingData.empty())
 }
