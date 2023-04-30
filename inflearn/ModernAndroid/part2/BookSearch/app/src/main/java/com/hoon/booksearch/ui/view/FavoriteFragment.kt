@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -14,6 +15,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.hoon.booksearch.databinding.FragmentFavoriteBinding
 import com.hoon.booksearch.ui.adapter.BookSearchAdapter
 import com.hoon.booksearch.ui.viewmodel.BookSearchViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class FavoriteFragment : Fragment() {
     private var _binding: FragmentFavoriteBinding? = null
@@ -37,8 +40,15 @@ class FavoriteFragment : Fragment() {
 
         setupRecyclerView()
         setupTouchHelper(view)
-        bookSearchViewModel.favoriteBooks.observe(viewLifecycleOwner) {
-            bookSearchAdapter.submitList(it)
+
+//        bookSearchViewModel.favoriteBooks.observe(viewLifecycleOwner) {
+//            bookSearchAdapter.submitList(it)
+//        }
+
+        lifecycleScope.launch {
+            bookSearchViewModel.favoriteBooks.collectLatest {
+                bookSearchAdapter.submitList(it)
+            }
         }
     }
 
