@@ -4,16 +4,24 @@ import android.hardware.camera2.CameraDevice.StateCallback
 import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import com.hoon.booksearch.data.model.Book
 import com.hoon.booksearch.data.model.SearchResponse
 import com.hoon.booksearch.data.repository.BookSearchRepository
+import com.hoon.booksearch.worker.CacheDeleteWorker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.concurrent.TimeUnit
 
 class BookSearchViewModel(
     private val bookSearchRepository: BookSearchRepository,
+    private val workManager: WorkManager,
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -56,6 +64,7 @@ class BookSearchViewModel(
 
     companion object {
         private const val SAVE_STATE_KEY = "query"
+        private val WORKER_KEY = "cache_worker"
     }
 
     // data store
@@ -65,6 +74,14 @@ class BookSearchViewModel(
 
     suspend fun getSortMode() = withContext(Dispatchers.IO) {
         bookSearchRepository.getSortMode().first()
+    }
+
+    fun saveCacheDeleteMode(value: Boolean) = viewModelScope.launch(Dispatchers.IO) {
+        bookSearchRepository.saveCacheDeleteMode(value)
+    }
+
+    suspend fun getCacheDeleteMode() = withContext(Dispatchers.IO) {
+        bookSearchRepository.getCacheDeleteMode().first()
     }
 
     // paging
@@ -85,4 +102,26 @@ class BookSearchViewModel(
                 }
         }
     }
+
+    // work manager
+    fun setWork() {
+        val constraints = Constraints.Builder()
+            .setRequiresCharging(true)
+            .setRequiresBatteryNotLow(true)
+            .build()
+
+        val workRequest = PeriodicWorkRequestBuilder<CacheDeleteWorker>(15, TimeUnit.MINUTES)
+            .setConstraints(constraints)
+            .build()
+
+        workManager.enqueueUniquePeriodicWork(
+            WORKER_KEY, ExistingPeriodicWorkPolicy.UPDATE, workRequest
+        )
+    }
+
+    fun deleteWork() = workManager.cancelUniqueWork(WORKER_KEY)
+
+    fun getWorkStatus(): LiveData<MutableList<WorkInfo>> =
+        workManager.getWorkInfosForUniqueWorkLiveData(WORKER_KEY)
+
 }
