@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hoon.booksearch.databinding.FragmentSearchBinding
 import com.hoon.booksearch.ui.adapter.BookSearchAdapter
+import com.hoon.booksearch.ui.adapter.BookSearchLoadStateAdapter
 import com.hoon.booksearch.ui.adapter.BookSearchPagingAdapter
 import com.hoon.booksearch.ui.viewmodel.BookSearchViewModel
 import com.hoon.booksearch.util.Constants.SEARCH_BOOKS_TIME_DELAY
@@ -62,7 +63,10 @@ class SearchFragment : Fragment() {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
-            adapter = bookSearchAdapter
+//            adapter = bookSearchAdapter
+            adapter = bookSearchAdapter.withLoadStateFooter(
+                footer = BookSearchLoadStateAdapter(bookSearchAdapter::retry)
+            )
         }
         bookSearchAdapter.setOnItemClickListener {
             val action = SearchFragmentDirections.actionFragmentSearchToFragmentBook(it)
@@ -105,20 +109,20 @@ class SearchFragment : Fragment() {
 
             binding.progressBar.isVisible = loadState.refresh is LoadState.Loading
 
-            binding.btnRetry.isVisible = loadState.refresh is LoadState.Error
-                    || loadState.append is LoadState.Error
-                    || loadState.prepend is LoadState.Error
-            val errorState: LoadState.Error? = loadState.append as? LoadState.Error
-                ?: loadState.prepend as? LoadState.Error
-                ?: loadState.refresh as? LoadState.Error
-            errorState?.let {
-                Toast.makeText(requireContext(), it.error.message, Toast.LENGTH_SHORT).show()
-            }
+//            binding.btnRetry.isVisible = loadState.refresh is LoadState.Error
+//                    || loadState.append is LoadState.Error
+//                    || loadState.prepend is LoadState.Error
+//            val errorState: LoadState.Error? = loadState.append as? LoadState.Error
+//                ?: loadState.prepend as? LoadState.Error
+//                ?: loadState.refresh as? LoadState.Error
+//            errorState?.let {
+//                Toast.makeText(requireContext(), it.error.message, Toast.LENGTH_SHORT).show()
+//            }
         }
 
-        binding.btnRetry.setOnClickListener {
-            bookSearchAdapter.retry()
-        }
+//        binding.btnRetry.setOnClickListener {
+//            bookSearchAdapter.retry()
+//        }
     }
 
     override fun onDestroyView() {
