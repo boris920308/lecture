@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -45,11 +47,20 @@ class FavoriteFragment : Fragment() {
 //            bookSearchAdapter.submitList(it)
 //        }
 
-        lifecycleScope.launch {
-            bookSearchViewModel.favoriteBooks.collectLatest {
-                bookSearchAdapter.submitList(it)
+//        lifecycleScope.launch {
+//            bookSearchViewModel.favoriteBooks.collectLatest {
+//                bookSearchAdapter.submitList(it)
+//            }
+//        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                bookSearchViewModel.favoriteBooks.collectLatest {
+                    bookSearchAdapter.submitList(it)
+                }
             }
         }
+
     }
 
     private fun setupRecyclerView() {
