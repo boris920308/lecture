@@ -72,4 +72,17 @@ class BookSearchViewModel(
         bookSearchRepository.getFavoritePagingBooks()
             .cachedIn(viewModelScope)
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), PagingData.empty())
+
+    private val _searchPagingResult = MutableStateFlow<PagingData<Book>>(PagingData.empty())
+    val searchPagingResult: StateFlow<PagingData<Book>> = _searchPagingResult.asStateFlow()
+
+    fun searchBooksPaging(query: String) {
+        viewModelScope.launch {
+            bookSearchRepository.searchBooksPaging(query, getSortMode())
+                .cachedIn(viewModelScope)
+                .collect {
+                    _searchPagingResult.value = it
+                }
+        }
+    }
 }
