@@ -23,7 +23,7 @@ object Versions {
     const val COROUTINE = "1.6.0"
     const val COIL = "1.4.0"
     const val RECYCLERVIEW = "1.2.1"
-    const val NAVIGATION = "2.4.1"
+    const val NAVIGATION = "2.5.3"
     const val ROOM = "2.4.2"
     const val KOTLIN_SERIALIZATION = "1.3.2"
     const val DATASTORE = "1.0.0"

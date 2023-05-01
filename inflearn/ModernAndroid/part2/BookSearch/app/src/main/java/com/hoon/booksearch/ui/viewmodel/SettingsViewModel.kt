@@ -46,7 +46,7 @@ class SettingsViewModel @Inject constructor(
             .build()
 
         workManager.enqueueUniquePeriodicWork(
-            WORKER_KEY, ExistingPeriodicWorkPolicy.UPDATE, workRequest
+            WORKER_KEY, ExistingPeriodicWorkPolicy.REPLACE, workRequest
         )
     }
     fun deleteWork() = workManager.cancelUniqueWork(WORKER_KEY)

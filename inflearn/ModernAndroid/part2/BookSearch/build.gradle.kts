@@ -9,7 +9,7 @@ plugins {
     id(Plugins.DAGGER_HILT) version Versions.HILT apply false
 }
 
-//task clean (type: Delete) {
+//task clean(type: Delete) {
 //    delete rootProject.buildDir
 //}
 
