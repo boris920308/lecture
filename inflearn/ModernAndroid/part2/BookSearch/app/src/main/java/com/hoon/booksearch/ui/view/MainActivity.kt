@@ -10,7 +10,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.hoon.booksearch.R
 import com.hoon.booksearch.databinding.ActivityMainBinding
-import com.hoon.booksearch.ui.viewmodel.BookSearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
-    lateinit var bookSearchViewModel: BookSearchViewModel
+//    lateinit var bookSearchViewModel: BookSearchViewModel
     private lateinit var navController: NavController
     // AppBar fragment 이름 표시로 변경
     private lateinit var appBarConfiguration: AppBarConfiguration
