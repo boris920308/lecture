@@ -2,13 +2,14 @@ package com.hoon.booksearch.data.repository
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.hoon.booksearch.data.api.RetrofitInstance.api
+import com.hoon.booksearch.data.api.BookSearchApi
 import com.hoon.booksearch.data.model.Book
 import com.hoon.booksearch.util.Constants.PAGING_SIZE
 import retrofit2.HttpException
 import java.io.IOException
 
 class BookSearchPagingSource(
+    private val api: BookSearchApi,
     private val query: String,
     private val sort: String
 ) : PagingSource<Int, Book>() {
