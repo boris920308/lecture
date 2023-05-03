@@ -53,7 +53,12 @@ dependencies {
     implementation(Dependencies.APP_COMPAT)
     implementation(Dependencies.MATERIAL)
     implementation(Dependencies.CONSTRAINT_LAYOUT)
+
+    // testing
     testImplementation(Testing.JUNIT4)
+    testImplementation("androidx.test.ext:truth:1.5.0")
+    testImplementation("androidx.test:runner:1.5.2")
+
     androidTestImplementation(Testing.ANDROID_JUNIT)
     androidTestImplementation(Testing.ESPRESSO_CORE)
 
