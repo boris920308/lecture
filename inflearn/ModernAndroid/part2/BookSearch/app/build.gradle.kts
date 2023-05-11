@@ -19,7 +19,8 @@ android {
         versionCode = DefaultConfig.VERSION_CODE
         versionName = DefaultConfig.VERSION_NAME
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.hoon.booksearch.HiltTestRunner"
     }
 
     buildTypes {
@@ -74,6 +75,8 @@ dependencies {
     androidTestImplementation("androidx.test.ext:truth:1.5.0")
     androidTestImplementation("androidx.test:runner:1.5.2")
     androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.2")
+    androidTestImplementation("com.google.dagger:hilt-android-testing:2.41")
+    kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.41")
 
     // Retrofit
     implementation(Dependencies.RETROFIT)
