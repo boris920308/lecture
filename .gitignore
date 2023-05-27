@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/kotlin,androidstudio,java,flutter,visualstudiocode,android,dart
 # Edit at https://www.toptal.com/developers/gitignore?templates=kotlin,androidstudio,java,flutter,visualstudiocode,android,dart
 
+### personalization ###
+ude/complete_flutter/download/
+
 ### Android ###
 # Gradle files
 .gradle/
