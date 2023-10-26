@@ -45,6 +45,11 @@ android {
     kapt {
         correctErrorTypes = true
     }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -58,6 +63,9 @@ dependencies {
     testImplementation(Testing.JUNIT4)
     testImplementation("androidx.test.ext:truth:1.4.0")
     testImplementation("androidx.test:runner:1.4.0")
+    testImplementation("org.robolectric:robolectric:4.9")
+    testImplementation(Testing.ANDROID_JUNIT)
+    testImplementation("androidx.test:core:1.5.0")
 
     // Android Testing
     androidTestImplementation(Testing.ANDROID_JUNIT)
