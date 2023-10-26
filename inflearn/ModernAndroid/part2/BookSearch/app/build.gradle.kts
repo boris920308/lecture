@@ -59,10 +59,12 @@ dependencies {
     testImplementation("androidx.test.ext:truth:1.4.0")
     testImplementation("androidx.test:runner:1.4.0")
 
-
     // Android Testing
     androidTestImplementation(Testing.ANDROID_JUNIT)
     androidTestImplementation(Testing.ESPRESSO_CORE)
+    androidTestImplementation("androidx.test:core:1.5.0")
+    androidTestImplementation("androidx.test.ext:truth:1.5.0")
+    androidTestImplementation("androidx.test:runner:1.5.2")
 
     // Retrofit
     implementation(Dependencies.RETROFIT)
