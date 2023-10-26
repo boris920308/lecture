@@ -66,6 +66,7 @@ dependencies {
     testImplementation("org.robolectric:robolectric:4.9")
     testImplementation(Testing.ANDROID_JUNIT)
     testImplementation("androidx.test:core:1.5.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.2")
 
     // Android Testing
     androidTestImplementation(Testing.ANDROID_JUNIT)
