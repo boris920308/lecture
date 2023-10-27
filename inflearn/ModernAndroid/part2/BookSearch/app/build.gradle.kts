@@ -71,8 +71,10 @@ dependencies {
 
     // Android Testing
     androidTestImplementation(Testing.ANDROID_JUNIT)
-    androidTestImplementation(Testing.ESPRESSO_CORE)
-    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.4.0")
+//    androidTestImplementation(Testing.ESPRESSO_CORE)
+//    const val ESPRESSO_CORE = "androidx.test.espresso:espresso-core:${Versions.ESPRESSO_CORE}"
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1")
     androidTestImplementation("org.hamcrest:hamcrest:2.2")
     androidTestImplementation("androidx.test:core:1.5.0")
     androidTestImplementation("androidx.test.ext:truth:1.5.0")
